@@ -44,4 +44,34 @@ router.post('/', (req, res, next) => {
         });
 });
 
+router.patch('/:id', (req, res, next) => {
+    var id = Number.parseInt(req.params.id);
+    var { title, description, price, item_image } = req.body;
+    if (Number.isNaN(id)) {
+        return next();
+    }
+    knex('classifieds')
+        .where('id', id)
+        .update({ title, description, price, item_image }, ['id', 'title', 'description', 'price', 'item_image'])
+        .then((row) => {
+            res.send(row[0]);
+        })
+        .catch((err) => {
+            next(err);
+        });
+});
+
+router.delete('/:id', (req, res, next) => {
+    knex('classifieds')
+        .where('id', req.params.id)
+        .del()
+        .returning(['id', 'title', 'description', 'price', 'item_image'])
+        .then((row) => {
+            res.send(row[0]);
+        })
+        .catch((err) => {
+            next(err);
+        });
+});
+
 module.exports = router;
