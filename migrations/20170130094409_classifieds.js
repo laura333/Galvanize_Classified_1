@@ -7,9 +7,9 @@ exports.up = function(knex, Promise) {
     table.string('description').notNullable();
     table.decimal('price').notNullable();
     table.string('item_image').notNullable();
+    // table.timestamps(true, true);
     table.dateTime('created_at').notNullable().defaultTo(knex.fn.now());
     table.dateTime('updated_at').notNullable().defaultTo(knex.fn.now());
-    // table.timestamps(true, true);
   });
 };
 
